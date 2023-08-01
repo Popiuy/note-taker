@@ -51,7 +51,7 @@ app.post('/api/notes', (req, res) => {
   });
 });
 
-// DELETE Route for deleting a note by ID
+// DELETE Route 
 app.delete('/api/notes/:id', (req, res) => {
   const idToDelete = req.params.id;
 
@@ -63,14 +63,14 @@ app.delete('/api/notes/:id', (req, res) => {
 
     let notes = JSON.parse(data);
 
-    // Find the index of the note with the given ID
+    // Find the index of the note with the id
     const noteIndexToDelete = notes.findIndex((note) => note.id === idToDelete);
 
     if (noteIndexToDelete === -1) {
       return res.status(404).json({ error: 'Note not found.' });
     }
 
-    // Remove the note from the notes array
+    // Remove the note from the array
     notes.splice(noteIndexToDelete, 1);
 
     fs.writeFile(path.join(__dirname, '/db/db.json'), JSON.stringify(notes), (err) => {
@@ -88,6 +88,4 @@ app.get('*', (req, res) =>
   res.sendFile(path.join(__dirname, '/index.html'))
 );
 
-app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT} 🚀`)
-);
+app.listen(process.env.PORT || 3001)
